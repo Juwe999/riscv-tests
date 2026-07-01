@@ -9,18 +9,6 @@ self-contained folder with exercises, a Spike-based run flow, and a short README
 - `spike` — RISC-V ISA simulator (runs programs bare metal)
 - Optional: export `DESIGN_HOME` to also run on the SHAKTI C-CLASS RTL
 
-## Schedule (afternoon sessions)
-
-| Day | Date | Session | Folder |
-|-----|------|---------|--------|
-| 9  | 3 Jul  | RISC-V Assembly & Simulator Setup | `day9_base_isa_setup/` |
-| 10 | 6 Jul  | Base ISA & M Extension            | `day10_base_isa_m_ext/` |
-| 11 | 7 Jul  | A/F/D/C Extensions                | `day11_afdc_ext/` |
-| 12 | 8 Jul  | CSR Programming                   | `day12_csr_programming/` |
-| 13 | 9 Jul  | Interrupts & Exceptions           | `day13_interrupts_exceptions/` |
-| 14 | 10 Jul | Pipeline Behaviour Analysis       | `day14_pipeline_analysis/` |
-| 15 | 13 Jul | Processor Debugging               | `day15_debugging/` |
-
 ## Start here
 ```bash
 cd day9_base_isa_setup/task1_setup
@@ -28,7 +16,7 @@ cd day9_base_isa_setup/task1_setup
 ```
 
 ## Reference
-RISC-V assembly course — Ch. 1–3 recommended pre-reading:
+- RISC-V assembly course 
 https://riscv-programming.org/book/riscv-book.html
 
 ---
