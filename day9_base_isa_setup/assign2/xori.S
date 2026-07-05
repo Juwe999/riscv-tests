@@ -7,16 +7,16 @@ RVTEST_RV64U
 RVTEST_CODE_BEGIN
 
     # ---- your code here -------------------------------------------------
-    # Example: compute 3 + 4. Replace with your own instructions.
+    # xori same with ori but opposite in execute value
 
 
-    li   t0, 998
-    li   t1, 69
-    add  t2, t0, t1              # your result in t2
+
+    li   t0, 20
+    XORI  t1, t0, 20              # your result in t2
 
     # ---- self-check: PASS if t2 == expected -----------------------------
-    li   t3, 0x42b                   # TODO: set the value you expect
-    bne  t2, t3, fail
+    li   t2, 235                   # TODO: set the value you expect
+    bne  t1, t2, fail
     # ---------------------------------------------------------------------
 
     RVTEST_PASS                  # exit 0

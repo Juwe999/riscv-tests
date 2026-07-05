@@ -7,15 +7,16 @@ RVTEST_RV64U
 RVTEST_CODE_BEGIN
 
     # ---- your code here -------------------------------------------------
-    # Example: compute 3 + 4. Replace with your own instructions.
+    #
 
 
-    li   t0, 998
-    li   t1, 69
+    li   t0, 40
+    li   t1, -20
     add  t2, t0, t1              # your result in t2
 
+juwee:
     # ---- self-check: PASS if t2 == expected -----------------------------
-    li   t3, 0x42b                   # TODO: set the value you expect
+    li   t3, 0x14                    # TODO: set the value you expect
     bne  t2, t3, fail
     # ---------------------------------------------------------------------
 

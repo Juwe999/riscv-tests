@@ -7,16 +7,15 @@ RVTEST_RV64U
 RVTEST_CODE_BEGIN
 
     # ---- your code here -------------------------------------------------
-    # Example: compute 3 + 4. Replace with your own instructions.
+    # SLTIU same with SLTI but not unsigned integers which only applicabl +ve value
 
 
-    li   t0, 998
-    li   t1, 69
-    add  t2, t0, t1              # your result in t2
+    li   t0, 23
+    sltiu  t1, t0, 300              # your result in t2
 
     # ---- self-check: PASS if t2 == expected -----------------------------
-    li   t3, 0x42b                   # TODO: set the value you expect
-    bne  t2, t3, fail
+    li   t2, 1                   # TODO: set the value you expect
+    bne  t1, t2, fail
     # ---------------------------------------------------------------------
 
     RVTEST_PASS                  # exit 0
