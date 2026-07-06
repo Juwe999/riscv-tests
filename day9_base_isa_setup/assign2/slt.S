@@ -7,16 +7,15 @@ RVTEST_RV64U
 RVTEST_CODE_BEGIN
 
     # ---- your code here -------------------------------------------------
-    #
+    # 
 
 
-    li   t0, 20
-    li   t1, 40
-    slt  t2, t0, t1              # your result in t2
+    li   t0, 
+    li   t1, 
+    add  t2, t0, t1              # your result in t2
 
-juwee:
     # ---- self-check: PASS if t2 == expected -----------------------------
-    li   t3, 0x01                    # TODO: set the value you expect
+    li   t3,                    # TODO: set the value you expect
     bne  t2, t3, fail
     # ---------------------------------------------------------------------
 
