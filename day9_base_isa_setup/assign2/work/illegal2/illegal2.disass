@@ -1,5 +1,5 @@
 
-work/priviledge/priviledge.elf:     file format elf64-littleriscv
+work/illegal2/illegal2.elf:     file format elf64-littleriscv
 
 
 Disassembly of section .text.init:
@@ -159,9 +159,9 @@ Disassembly of section .text.init:
     800001ae:	342022f3          	csrr	t0,mcause
     800001b2:	343022f3          	csrr	t0,mtval
     800001b6:	300022f3          	csrr	t0,mstatus
-    800001ba:	00002337          	lui	t1,0x2
-    800001be:	8003031b          	addw	t1,t1,-2048 # 1800 <_start-0x7fffe800>
-    800001c2:	30032073          	csrs	mstatus,t1
+    800001ba:	00002e37          	lui	t3,0x2
+    800001be:	800e0e1b          	addw	t3,t3,-2048 # 1800 <_start-0x7fffe800>
+    800001c2:	3002b073          	csrc	mstatus,t0
     800001c6:	00000297          	auipc	t0,0x0
     800001ca:	fa828293          	add	t0,t0,-88 # 8000016e <back>
     800001ce:	34129073          	csrw	mepc,t0
