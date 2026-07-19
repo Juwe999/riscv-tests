@@ -1,0 +1,4 @@
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  could not open switch_modemu.elf; searched paths:
+	. (current directory)
+	/tools/spike_build/riscv64-unknown-elf/bin/ (based on configured --prefix and --with-target)

@@ -1,5 +1,5 @@
 
-work/interrupt/interrupt.elf:     file format elf64-littleriscv
+work/csr/csr.elf:     file format elf64-littleriscv
 
 
 Disassembly of section .text.init:
@@ -35,11 +35,11 @@ Disassembly of section .text.init:
 0000000080000042 <shakti_end>:
     80000042:	0000100f          	fence.i
     80000046:	00020fb7          	lui	t6,0x20
-    8000004a:	00002f17          	auipc	t5,0x2
-    8000004e:	fb6f0f13          	add	t5,t5,-74 # 80002000 <_end>
+    8000004a:	00000f17          	auipc	t5,0x0
+    8000004e:	176f0f13          	add	t5,t5,374 # 800001c0 <begin_signature>
     80000052:	01efa023          	sw	t5,0(t6) # 20000 <_start-0x7ffe0000>
-    80000056:	00002f17          	auipc	t5,0x2
-    8000005a:	faaf0f13          	add	t5,t5,-86 # 80002000 <_end>
+    80000056:	00000f17          	auipc	t5,0x0
+    8000005a:	16af0f13          	add	t5,t5,362 # 800001c0 <begin_signature>
     8000005e:	01efa423          	sw	t5,8(t6)
     80000062:	01efa623          	sw	t5,12(t6)
 
@@ -129,52 +129,35 @@ Disassembly of section .text.init:
     80000156:	34129073          	csrw	mepc,t0
     8000015a:	f1402573          	csrr	a0,mhartid
     8000015e:	30200073          	mret
-    80000162:	00000f97          	auipc	t6,0x0
-    80000166:	050f8f93          	add	t6,t6,80 # 800001b2 <trap_handler>
-    8000016a:	305f9073          	csrw	mtvec,t6
-    8000016e:	4321                	li	t1,8
-    80000170:	30431073          	csrw	mie,t1
-    80000174:	43a1                	li	t2,8
-    80000176:	3003a073          	csrs	mstatus,t2
-    8000017a:	02000e37          	lui	t3,0x2000
-    8000017e:	4e85                	li	t4,1
-    80000180:	01de2023          	sw	t4,0(t3) # 2000000 <_start-0x7e000000>
-    80000184:	0001                	nop
-    80000186:	0001                	nop
-    80000188:	0001                	nop
-    8000018a:	0001                	nop
-    8000018c:	0001                	nop
-    8000018e:	0001                	nop
-    80000190:	0001                	nop
-    80000192:	0001                	nop
-    80000194:	0001                	nop
-    80000196:	0001                	nop
-    80000198:	0001                	nop
-    8000019a:	0001                	nop
+    80000162:	300022f3          	csrr	t0,mstatus
+    80000166:	b0002373          	csrr	t1,mcycle
+    8000016a:	b02023f3          	csrr	t2,minstret
+    8000016e:	6e05                	lui	t3,0x1
+    80000170:	234e0e1b          	addw	t3,t3,564 # 1234 <_start-0x7fffedcc>
+    80000174:	340e1ef3          	csrrw	t4,mscratch,t3
+    80000178:	340e2f73          	csrrs	t5,mscratch,t3
+    8000017c:	340e3ff3          	csrrc	t6,mscratch,t3
+    80000180:	3402d2f3          	csrrw	t0,mscratch,5
+    80000184:	3401e373          	csrrs	t1,mscratch,3
+    80000188:	3400f3f3          	csrrc	t2,mscratch,1
+    8000018c:	0ff0000f          	fence
+    80000190:	4185                	li	gp,1
+    80000192:	05d00893          	li	a7,93
+    80000196:	4501                	li	a0,0
+    80000198:	00000073          	ecall
 
-000000008000019c <back>:
-    8000019c:	4305                	li	t1,1
-    8000019e:	02629563          	bne	t0,t1,800001c8 <fail>
-    800001a2:	0ff0000f          	fence
-    800001a6:	4185                	li	gp,1
-    800001a8:	05d00893          	li	a7,93
-    800001ac:	4501                	li	a0,0
-    800001ae:	00000073          	ecall
+000000008000019c <fail>:
+    8000019c:	0ff0000f          	fence
+    800001a0:	00018063          	beqz	gp,800001a0 <fail+0x4>
+    800001a4:	0186                	sll	gp,gp,0x1
+    800001a6:	0011e193          	or	gp,gp,1
+    800001aa:	05d00893          	li	a7,93
+    800001ae:	850e                	mv	a0,gp
+    800001b0:	00000073          	ecall
+    800001b4:	0000                	unimp
+    800001b6:	00000013          	nop
+    800001ba:	00000013          	nop
+    800001be:	0001                	nop
 
-00000000800001b2 <trap_handler>:
-    800001b2:	342023f3          	csrr	t2,mcause
-    800001b6:	34102473          	csrr	s0,mepc
-    800001ba:	4285                	li	t0,1
-    800001bc:	02000e37          	lui	t3,0x2000
-    800001c0:	000e2023          	sw	zero,0(t3) # 2000000 <_start-0x7e000000>
-    800001c4:	30200073          	mret
-
-00000000800001c8 <fail>:
-    800001c8:	0ff0000f          	fence
-    800001cc:	00018063          	beqz	gp,800001cc <fail+0x4>
-    800001d0:	0186                	sll	gp,gp,0x1
-    800001d2:	0011e193          	or	gp,gp,1
-    800001d6:	05d00893          	li	a7,93
-    800001da:	850e                	mv	a0,gp
-    800001dc:	00000073          	ecall
+00000000800001c0 <begin_signature>:
 	...
