@@ -1,0 +1,3 @@
+Total instructions: 1
+Instruction Count  Percentage
+------------------------------li         1      100.0%

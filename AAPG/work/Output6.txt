@@ -1,0 +1,16 @@
+Total instructions: 100001
+Instruction Count  Percentage
+------------------------------divw       10055  10.1%
+remw       10015  10.0%
+remuw      10001  10.0%
+mulw       9966   10.0%
+divuw      9963   10.0%
+mulh       6307   6.3%
+divu       6299   6.3%
+mulhu      6286   6.3%
+mul        6283   6.3%
+div        6249   6.2%
+remu       6242   6.2%
+mulhsu     6231   6.2%
+rem        6103   6.1%
+li         1      0.0%
