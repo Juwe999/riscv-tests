@@ -1,0 +1,45 @@
+Task: Verify the add instruction in p mode (rv64ui-p-add) using the
+C-CLASS design against the Spike reference model.
+
+-------------------------------------------------------------------------
+Setup notes
+-------------------------------------------------------------------------
+Design location: /home/vsysuser/workspace/c-class
+Design was already built (verilator link + boot files present under
+c-class/bin: out, boot.LSB, boot.MSB), so no rebuild was required.
+
+The SHAKTI verification framework provides a 'test' make target that
+compiles the given riscv-tests assembly source, simulates it on the
+C-CLASS DUT, and checks the result against the Spike reference model
+(mod-spike) at the ISA level.
+
+Initial attempts failed because CONFIG_ISA was not specified, causing
+the assembler -march flag to be generated empty:
+
+  make test opts="--test=add --suite=rv64ui"
+  -> ERROR: -march= empty, gcc invocation failed
+
+Adding CONFIG_ISA still failed on this toolchain (GCC 12.2.0), because
+fence.i now requires the zifencei extension to be listed explicitly:
+
+  make test opts='--test=add --suite=rv64ui' CONFIG_ISA=RV64IMAFDC
+  -> Error: unrecognized opcode `fence.i', extension `zifencei' required
+
+-------------------------------------------------------------------------
+Working command
+-------------------------------------------------------------------------
+  make test opts='--test=add --suite=rv64ui' CONFIG_ISA=RV64IMAFDCZicsr_zifencei
+
+-------------------------------------------------------------------------
+Result
+-------------------------------------------------------------------------
+  coreClass: cclass
+  [makeTest.pl] add.S  | rv64ui | PASSED
+
+-------------------------------------------------------------------------
+Conclusion
+-------------------------------------------------------------------------
+The add instruction test (rv64ui-p-add) was compiled, simulated on the
+C-CLASS design, and compared against the Spike reference model. The
+result PASSED, confirming the design's add implementation matches the
+ISA-level reference behavior in p (machine) mode.
