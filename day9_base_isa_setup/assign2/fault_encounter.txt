@@ -1,0 +1,52 @@
+Task: Run add.S test in virtual mode (rv64ui-v-add) under Spike debug mode,
+
+-------------------------------------------------------------------------
+Commands used
+-------------------------------------------------------------------------
+Directory: ~/frontend-Juwe999/day9_base_isa_setup/riscv-tests/isa
+
+  make rv64ui-v-add
+
+  spike -d --isa=rv64gc --log-commits --log=spike_v_add_debug.log rv64ui-v-add
+    (spike) run
+
+  grep -i "page_fault\|mcause\|trap" spike_v_add_debug.log > page_faults_add_vmode.txt
+
+-------------------------------------------------------------------------
+Raw output (page_faults_add_vmode.txt)
+-------------------------------------------------------------------------
+core   0: exception trap_illegal_instruction, epc 0x0000000080000094
+core   0: exception trap_instruction_page_fault, epc 0x0000000000002a14
+core   0: exception trap_instruction_page_fault, epc 0x0000000000002a14
+core   0: exception trap_user_ecall, epc 0x0000000000002f1c
+
+-------------------------------------------------------------------------
+Analysis
+-------------------------------------------------------------------------
+1. trap_illegal_instruction @ 0x80000094
+   Occurs during early boot/reset setup, before the add test body runs.
+   riscv-tests' startup harness probes for optional ISA extensions by
+   executing an instruction and catching the resulting illegal-instruction
+   trap when unsupported. Expected boot-time behavior, not a fault caused
+   by the add instruction itself.
+
+2. trap_instruction_page_fault @ 0x2a14 (x2, same epc)
+   This is the actual virtual-memory page fault relevant to the task.
+   First fetch of the instruction at 0x2a14 misses the page table, Spike's
+   fault handler installs the mapping for that page (demand paging), and
+   execution retries the same instruction -- hence the identical epc on
+   both lines. This confirms v-mode paging is active and being exercised
+   during the add.S test.
+
+3. trap_user_ecall @ 0x2f1c
+   Final ECALL from the test harness to report PASS/FAIL and exit cleanly.
+   Confirms the test ran to completion.
+
+-------------------------------------------------------------------------
+Conclusion
+-------------------------------------------------------------------------
+rv64ui-v-add completed successfully under Spike in virtual mode. One
+genuine instruction page fault was observed (at epc 0x2a14, triggered
+twice due to the fault-then-retry sequence), consistent with normal
+demand-paging behavior on first access to a code page. No unexpected
+or unhandled faults occurred.
